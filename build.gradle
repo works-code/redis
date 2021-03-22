@@ -1,0 +1,39 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.code'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '15'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE') {
+        exclude(group: 'io.lettuce', module: 'lettuce-core')
+    }
+    // jedis 사용을 위해
+    compile group: 'redis.clients', name: 'jedis'
+    // json을 사용 하기 위함.
+    compile 'com.fasterxml.jackson.core:jackson-databind'
+    // aspect 사용을 위해 추가
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+}
+
+test {
+    useJUnitPlatform()
+}
