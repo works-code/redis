@@ -27,7 +27,7 @@ public class RedisConfiguration {
    /* @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         LettuceConnectionFactory factory = new LettuceConnectionFactory(new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort()));
-        factory.setTimeout(1000);
+        factory.setTimeout(3000);
         return factory;
     }*/
 
@@ -35,7 +35,7 @@ public class RedisConfiguration {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory(new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort()));
-        factory.setTimeout(1000);
+        factory.setTimeout(3000);
 
         // jedis pool 사용시 주석을 풀어 사용하세요
         /*JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
