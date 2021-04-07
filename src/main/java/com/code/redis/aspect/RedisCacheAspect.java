@@ -56,10 +56,10 @@ public class RedisCacheAspect {
         String key = keyGenerator(redisCacheable, parameters);
 
         Object cachedObject = null;
-        // 해당 키에 대한 값이 있는지 확인
-        cachedObject = redisTemplate.opsForValue().get(key);
-        try{
 
+        try{
+            // 해당 키에 대한 값이 있는지 확인
+            cachedObject = redisTemplate.opsForValue().get(key);
         } catch (Exception e){
             log.error("###  [RedisCacheAspect] Error : {}", e.getMessage());
         }

@@ -10,9 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -95,6 +98,7 @@ class RedisApplicationTests {
     // json으로 저장 할거라 redistemplate 사용
     @Test
     void 레디스캐시테스트(){
+
       /*  log.error("### => {}", jobService.chart(new Job.request(){{
             setType(JobTypeEnum.B);
         }}));
@@ -110,5 +114,12 @@ class RedisApplicationTests {
             setType(JobTypeEnum.B);
             setNumber(1);
         }}));*/
+    }
+
+    @Test
+    void 테스트(){
+        List<String> list = null;
+        String name = CollectionUtils.isEmpty(list)? null : list.stream().findFirst().orElse(null);
+        log.error("하하 => {}",name);
     }
 }

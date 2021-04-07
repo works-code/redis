@@ -24,16 +24,11 @@ public class RedisConfiguration {
     @Autowired
     RedisProperties redisProperties;
 
-    /*@Bean
-    public RedisConnectionFactory redisConnectionFactory(){
-        return new LettuceConnectionFactory();
-    }*/
-
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
      /*   RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort());
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(config);
-
+        // pool 사용시 주석을 풀어 사용하세요
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisConnectionFactory.setUsePool(true);
         jedisPoolConfig.setMaxTotal(100);
