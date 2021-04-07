@@ -133,6 +133,7 @@ public class RedisCacheAspect {
         StringBuilder sb = new StringBuilder();
         String activeProfile = Arrays.toString(environment.getActiveProfiles()).replaceAll("\\[", "").replaceAll("\\]", "");
 
+        // key가 여러개면 "redis:new-song, redis:top-chart:local:C.0" / 1개면 "redis:new-song:local:C.0"
         sb.append(Arrays.toString(redisCacheable.cacheNames()).replaceAll("\\[", "").replaceAll("\\]", ""));
         sb.append(":");
 
