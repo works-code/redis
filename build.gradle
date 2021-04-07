@@ -23,11 +23,16 @@ dependencies {
     compile 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // jedis 사용시 해당 부분 정의
     compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE') {
         exclude(group: 'io.lettuce', module: 'lettuce-core')
     }
-    // jedis 사용을 위해
     compile group: 'redis.clients', name: 'jedis'
+
+    // lettuce 사용시 해당 부분 정의
+    /*compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE')*/
+
     // json을 사용 하기 위함.
     compile 'com.fasterxml.jackson.core:jackson-databind'
     // aspect 사용을 위해 추가

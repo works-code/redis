@@ -49,7 +49,8 @@ public class RedisCacheAspect {
         Method theMethod = ClassUtils.getMethodIfAvailable(joinPoint.getTarget().getClass(), signature.getMethod().getName(), signature.getParameterTypes());
         RedisCacheable redisCacheable = (RedisCacheable) theMethod.getAnnotation(RedisCacheable.class);
 
-        //키명 생성
+        // 키명 생성
+        // 예) redis:new-song:local:C.0
         Object[] args = joinPoint.getArgs(); // 메소드 매개 변수
         Method method = signature.getMethod(); // 메소드 매개 변수 정보
         Map<String, Object> parameters = getAnnotatedParameterValue(method, args);

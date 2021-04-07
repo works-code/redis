@@ -30,40 +30,41 @@ class RedisApplicationTests {
 
     @Test
     void string_redis() {
-        String key = "key";
-        String value = "value";
+        String key = "string_redis";
+        String value = "string";
         redisService.setStringOps(key, value, 10, TimeUnit.SECONDS);
         log.error("### Redis Key => {} | value => {}", key, redisService.getStringOps(key));
     }
 
     @Test
     void list_redis() {
-        String key = "key_list";
-        String keyEty = "key_empty";
+        String key = "list_redis";
         List<String> values = new ArrayList<>();
-        values.add("value_1");
-        values.add("value_2");
+        values.add("list_01");
+        values.add("list_02");
         redisService.setListOps(key, values);
         log.error("### Redis Key => {} | value => {}", key, redisService.getListOps(key));
-        log.error("### Redis Empty Key => {} | value => {}", keyEty, redisService.getListOps(keyEty));
 
+        String keyEty = "empty_key";
+        log.error("### Redis Empty Key => {} | value => {}", keyEty, redisService.getListOps(keyEty));
     }
 
     @Test
     void hash_redis() {
-        String key = "key_hash";
-        String keyEty = "key_empty";
-
-        String mapKeyOne = "map_key_1";
-        String mapKeyTwo = "map_key_2";
+        String key = "hash_redis";
 
         HashMap<String, String> map = new HashMap<>();
-        map.put(mapKeyOne, "value_1");
-        map.put(mapKeyTwo, "value_2");
+        String mapKeyOne = "hash_key_1";
+        String mapKeyTwo = "hash_key_2";
+
+        map.put(mapKeyOne, "hash_value_1");
+        map.put(mapKeyTwo, "hash_value_2");
 
         redisService.setHashOps(key, map);
         log.error("### Redis One Key => {} | value => {}", key, redisService.getHashOps(key, mapKeyOne));
         log.error("### Redis Two Key => {} | value => {}", key, redisService.getHashOps(key, mapKeyTwo));
+
+        String keyEty = "key_empty";
         log.error("### Redis Empty hash Key => {} | value => {}", keyEty, redisService.getHashOps(key, keyEty));
         log.error("### Redis Empty Key => {} | value => {}", keyEty, redisService.getHashOps(keyEty, mapKeyOne));
     }
@@ -71,27 +72,31 @@ class RedisApplicationTests {
     @Test
     void set_redis() {
         String key = "key_set";
-        String keyEty = "key_empty";
+
         redisService.setSetOps(key, "value_1","value_2","value_1");
         log.error("### Redis Key => {} | value => {}", key, redisService.getSetOps(key));
+
+        String keyEty = "key_empty";
         log.error("### Redis Empty Key => {} | value => {}", keyEty, redisService.getSetOps(keyEty));
     }
 
     @Test
     void sortedSet_redis() {
-        String key = "key_sortedSet";
-        String keyEty = "key_empty";
+        String key = "sortedSet_redis";
+
         List<Struct.SortedSet> values = new ArrayList<>();
         values.add(new Struct.SortedSet(){{
-            setValue("value_100");
+            setValue("sortedSet_value_100");
             setScore(100D);
         }});
         values.add(new Struct.SortedSet(){{
-            setValue("value_10");
+            setValue("sortedSet_value_10");
             setScore(10D);
         }});
         redisService.setSortedSetOps(key, values);
         log.error("### Redis Key => {} | value => {}", key, redisService.getSortedSetOps(key));
+
+        String keyEty = "key_empty";
         log.error("### Redis Empty Key => {} | value => {}", keyEty, redisService.getSortedSetOps(keyEty));
     }
 

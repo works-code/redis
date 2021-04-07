@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 /***
  * String에 특화된 StringRedisTemplate
- * String 만 다루려면 아래 서비스 사용하고, 그게 아니라면 RedisTemplate 사용.
+ * String 만 다루려면 아래 서비스 사용하고, 그게 아니라면 RedisTemplate 빈 정의하여 사용.
  */
 @Service
 public class RedisService {
