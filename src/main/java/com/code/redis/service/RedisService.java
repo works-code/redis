@@ -2,9 +2,9 @@ package com.code.redis.service;
 
 import com.code.redis.vo.Struct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.NumberUtils;
@@ -22,6 +22,9 @@ public class RedisService {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    RedisConnectionFactory redisConnectionFactory;
 
     // string (opsForValue)
     public void setStringOps(String key, String value, long ttl, TimeUnit unit){
@@ -70,6 +73,86 @@ public class RedisService {
     public Set getSortedSetOps(String key){
         Long len = redisTemplate.opsForZSet().size(key);
         return len == 0 ? new HashSet<String>() : redisTemplate.opsForZSet().range(key, 0, len-1);
+    }
+
+    public List<String> getAsterOps(String key){
+        RedisConnection redisConnection = redisConnectionFactory.getConnection();
+        ScanOptions options = ScanOptions.scanOptions().count(2).match(key).build();
+
+        List<String> values = new ArrayList<>();
+        Cursor<byte[]> cursor = redisConnection.scan(options);
+
+        while (cursor.hasNext()){
+            String val = new String(cursor.next());
+            values.add(val);
+        }
+
+        return values;
+    }
+
+    public Long delAsterOps(String key){
+        RedisConnection redisConnection = redisConnectionFactory.getConnection();
+        ScanOptions options = ScanOptions.scanOptions().count(2).match(key).build();
+
+        List<String> values = new ArrayList<>();
+        Cursor<byte[]> cursor = redisConnection.scan(options);
+
+        while (cursor.hasNext()){
+            String val = new String(cursor.next());
+            values.add(val);
+        }
+
+        Long resultCode = redisTemplate.delete(values);
+
+        return resultCode;
+    }
+
+    public List<String> getHashAsterOps(String key){
+        RedisConnection redisConnection = redisConnectionFactory.getConnection();
+        ScanOptions options = ScanOptions.scanOptions().count(10).match("*").build();
+        Cursor<byte[]> outCursor = redisConnection.scan(options);
+
+        List<String> values = new ArrayList<>();
+
+        // out key
+        while (outCursor.hasNext()){
+            String outKey = new String(outCursor.next());
+
+            ScanOptions hashOptions = ScanOptions.scanOptions().count(10).match(key).build();
+            Cursor<Map.Entry<byte[],byte[]>> inCursor = redisConnection.hScan(outKey.getBytes(), hashOptions);
+
+            // in key
+            while (inCursor.hasNext()){
+                Map.Entry<byte[], byte[]> val = inCursor.next();
+                values.add(outKey+"|"+new String(val.getKey())+"|"+new String(val.getValue()));
+            }
+        }
+
+        return values;
+    }
+    public Long delHashAsterOps(String key){
+        RedisConnection redisConnection = redisConnectionFactory.getConnection();
+        ScanOptions options = ScanOptions.scanOptions().count(10).match("*").build();
+        Cursor<byte[]> outCursor = redisConnection.scan(options);
+
+        Long resultCode = 0L;
+
+        // out key
+        while (outCursor.hasNext()){
+            String outKey = new String(outCursor.next());
+
+            ScanOptions hashOptions = ScanOptions.scanOptions().count(10).match(key).build();
+            Cursor<Map.Entry<byte[],byte[]>> inCursor = redisConnection.hScan(outKey.getBytes(), hashOptions);
+
+            // in key
+            while (inCursor.hasNext()){
+                Map.Entry<byte[], byte[]> val = inCursor.next();
+                Long delCnt = redisTemplate.opsForHash().delete(outKey, new String(val.getKey()));
+                resultCode += delCnt;
+            }
+        }
+
+        return resultCode;
     }
 
 }

@@ -14,7 +14,6 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import redis.clients.jedis.JedisPoolConfig;
 
 @EnableRedisRepositories
 @Configuration
@@ -24,28 +23,28 @@ public class RedisConfiguration {
     RedisProperties redisProperties;
 
     // lettuce 사용시 해당 빈 정의 필요
-   /* @Bean
+    @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         LettuceConnectionFactory factory = new LettuceConnectionFactory(new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort()));
         factory.setTimeout(3000);
         return factory;
-    }*/
+    }
 
     // jedis 사용시 해당 빈 정의 필요
-    @Bean
+   /* @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory(new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort()));
         factory.setTimeout(3000);
 
         // jedis pool 사용시 주석을 풀어 사용하세요
-        /*JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        *//*JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(100);
         jedisPoolConfig.setMaxIdle(10);
         factory.setUsePool(true);
-        factory.setPoolConfig(jedisPoolConfig);*/
+        factory.setPoolConfig(jedisPoolConfig);*//*
 
         return factory;
-    }
+    }*/
 
     // json 형태로 값이 저장될 필요가 없다면 아래 빈 정의 필요 없음
     @Bean

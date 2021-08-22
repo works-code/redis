@@ -30,9 +30,9 @@ class RedisApplicationTests {
 
     @Test
     void string_redis() {
-        String key = "string_redis";
-        String value = "string";
-        redisService.setStringOps(key, value, 10, TimeUnit.SECONDS);
+        String key = "s_key03";
+        String value = "s_value03";
+        redisService.setStringOps(key, value, 1, TimeUnit.HOURS);
         log.error("### Redis Key => {} | value => {}", key, redisService.getStringOps(key));
     }
 
@@ -51,14 +51,14 @@ class RedisApplicationTests {
 
     @Test
     void hash_redis() {
-        String key = "hash_redis";
+        String key = "h_key_20210730";
 
         HashMap<String, String> map = new HashMap<>();
-        String mapKeyOne = "hash_key_1";
-        String mapKeyTwo = "hash_key_2";
+        String mapKeyOne = "key_01";
+        String mapKeyTwo = "key_02";
 
-        map.put(mapKeyOne, "hash_value_1");
-        map.put(mapKeyTwo, "hash_value_2");
+        map.put(mapKeyOne, "value_03");
+        map.put(mapKeyTwo, "value_04");
 
         redisService.setHashOps(key, map);
         log.error("### Redis One Key => {} | value => {}", key, redisService.getHashOps(key, mapKeyOne));
@@ -122,9 +122,19 @@ class RedisApplicationTests {
     }
 
     @Test
-    void 테스트(){
-        List<String> list = null;
-        String name = CollectionUtils.isEmpty(list)? null : list.stream().findFirst().orElse(null);
-        log.error("하하 => {}",name);
+    void 조회테스트(){
+        //List<String> value = redisService.getAsterOps("*07*");
+        List<String> value = redisService.getHashAsterOps("*02");
+
+        log.error("## => {}", value);
     }
+
+    @Test
+    void 삭제테스트(){
+        Long rtnCode = redisService.delHashAsterOps("*01");
+
+        log.error("## => {}", rtnCode);
+    }
+
+
 }

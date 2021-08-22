@@ -25,13 +25,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // jedis 사용시 해당 부분 정의 (Spring Boot 2.0 이상에서는 Lettuce가 기본 클라이언트가 되었기 때문에 Jedis를 사용하기 위해서는 Lettuce를 exclude 해주어야 한다.)
-    compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE') {
+    /*compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE') {
         exclude(group: 'io.lettuce', module: 'lettuce-core')
     }
-    compile group: 'redis.clients', name: 'jedis'
+    compile group: 'redis.clients', name: 'jedis'*/
 
     // lettuce 사용시 해당 부분 정의
-    /*compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE')*/
+    compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE')
 
     // json을 사용 하기 위함.
     compile 'com.fasterxml.jackson.core:jackson-databind'
